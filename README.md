@@ -80,13 +80,89 @@ la function now() permet de generer l'heure
 
 ## factory
 dans le dossier factory a userfactory, il y a une fonction faker qui permet de generer une list d'utilisateurs
+
+## 
 ### raccourci emet
 
 dans la view, vous pouvez utiliser le raccourci @ pour chercher une function, ex=> foreach
 ## php artisan
 toute les commandes en faisant `php artisan --help` et `php artisan list`
 
-## deploy on heroku
+creation d un factory avec la commande `php artisan make:factory --model=Post`  à la fin on peut le lier à un model avec la commande --model=
+ensuite pour generer des post ou utilisateur avec facker, il faut entrer dans un terminal php avec
+php artisan tinker
+et une fois dedans il faut ecrire
+le nom du factory User:factory()->count(10)->create(); qui permet avec la function count de generer le nombre d'user que l'on veut et la function create pour lancer le processus
+***
+# eloquence
+permet de mapper des object et les relier à la base de données (ORM)
+pour recuperer les données, c'est tres simple; $posts = post::all();
+
+## view condition
+maintenant pour afficher les elements de la databse, il suffit de faire `nom_dans_db->nom_title` dans un foreach et on peut ajouter des conditions @if ou @ifelse de nombre de post if($posts->count() > 0) show post @else nothing to show
+la function find() permet de recuperer l id notamment ou autre d un tableau post::find($id)
+findOrFail qui permet de s'occuper d'erreur 404 si il ne trouve pas l'user ou post
+## find post specific
+pour appeler un post specific $post = Post::where('title', '=' ,'dfdgv sdfdgd sddf').
+1 - le = n est pas necessaire dans la requet
+ on ajoute un get pour recuperer ->get();
+
+Pour eviter de se retrouver dans un array qui causes des erreurs, il suffit de faire ->first();
+et pour eviter les 404 firstOrFail();
+
+# get et post
+on peut nommer l url sur le même nom car la method est differente entre get et post, du coup la method dans le form est {{ route('posts.store') }}
+## crsf
+il faut vproteger son formulaire avec le code @crsf sinon il y a une erreur 419
+
+on créé la nouvelle function store et dedans on peut lui indiquer request $request, qui permet de stocker notre formulaire dans une requete
+
+## comment recuperer ces infos dans notre db
+il faut creer une nouvelle instance de post `$post = new Post;` il suffit d'indiquer a quoi correspond les champs
+`$post->title = $request->title;`
+ensuite il suffit de faire un save `$post->save();`
+
+## autre method
+on peut faire simplement 
+`Poste::create([
+    'title' => $request->title, 
+    'content' => $request->content ])`
+
+    avec cette method laravel se protege car on lui a pas indiquer de le faire
+    il faut aller dans le model et lui passer la ligne
+    `protected $fillable = ['title', 'content']`
+
+## list articles
+on peut lister les articles un peu comme dans une db avec les attribut orderby et apres get `Post::orderBy('title')->get();` pour recuperer en nom il faut mettre l'attribut `->take(3)`
+***
+
+## enregistrement dans database
+il faut moduler les elements par exemple dans un article, il faut separer l article des commentaires et leur attribuer a chacun une table propre et de les relier avec une method `one to many`
+
+pour appeler une id etrangere a celle de la table, il faut faire `$table->unsignedBigIntegger('post_id);`
+il faut indiquer a quelle table et colonne on veut la relier
+`$table->foreign('post_id')->ireference('id')->on('post');
+2 - si la table porte le même nom avec 's'
+on peut faire `$table->foreignId('post_id')->constrained();`
+
+dans le model, il faut ajouter cette public function
+return $this->hasMany(Comment::class);
+
+## afficher comment
+enfin pour afficher les commentaires dans la vue, il suffit de faire un foreach de $post->comments as $comment pour afficher l'ensemble des commentaires
+
+***
+
+## relation One to one
+pour illustrer cette methode, un post est lie a une image
+
+un champ n'est pas forcement obligatoire , donc dans migration, $table->string('path')->nullable();
+nullable pour indiquer donc qu'il n'est pas obligatoire, ou on peut lui mettre une valeur par default avec `default('')`
+% important %
+onDelete('cascade') permet de supprimer l'image si le post est effacé!!
+
+la clé etrangere ici `post_id` peut etre defini dans le model hasone(Post:class, 'cle etrangere')
+ ## deploy on heroku
 
 `heroku create
 
