@@ -85,3 +85,39 @@ dans le dossier factory a userfactory, il y a une fonction faker qui permet de g
 dans la view, vous pouvez utiliser le raccourci @ pour chercher une function, ex=> foreach
 ## php artisan
 toute les commandes en faisant `php artisan --help` et `php artisan list`
+
+## deploy on heroku
+
+`heroku create
+
+echo 'web: heroku-php-apache2 public/' > Procfile
+
+git init
+
+git add . 
+
+
+git commit -m "initial import"
+
+ heroku addons:create heroku-postgresql:hobby-dev
+
+heroku config:set SYMFONY_ENV=prod
+
+
+
+
+"compile": [
+"php bin/console doctrine:migrations:migrate"
+]
+
+
+
+
+
+composer require symfony/apache-pack
+
+git add .
+
+git commit -m "heroku config"
+
+git push heroku master `
