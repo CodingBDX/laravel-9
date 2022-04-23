@@ -90,7 +90,7 @@ toute les commandes en faisant `php artisan --help` et `php artisan list`
 
 creation d un factory avec la commande `php artisan make:factory --model=Post`  à la fin on peut le lier à un model avec la commande --model=
 ensuite pour generer des post ou utilisateur avec facker, il faut entrer dans un terminal php avec
-php artisan tinker
+`php artisan tinker`
 et une fois dedans il faut ecrire
 le nom du factory User:factory()->count(10)->create(); qui permet avec la function count de generer le nombre d'user que l'on veut et la function create pour lancer le processus
 ***
@@ -162,6 +162,40 @@ nullable pour indiquer donc qu'il n'est pas obligatoire, ou on peut lui mettre u
 onDelete('cascade') permet de supprimer l'image si le post est effacé!!
 
 la clé etrangere ici `post_id` peut etre defini dans le model hasone(Post:class, 'cle etrangere')
+
+## relation manytomany
+par exemple un tags peut representer plusieurs choses (voitures,design,maison) et il peut aussi etre attribue a plusieurs personnes
+c'est une table pivot qui lie les 2 tables ensembles
+-On créer toujours un model qu'on associe à une migration avec le drapeau -m  (php artisan make:model Tag -m)
+
+il y a une function dans laravel pour creer la table pivot! (qui relie 2tables manytomany)
+`php artisan make:migration create_pivot_table_` on ajoute a la fin le nom des tables a lier post_tag
+ensuite on va dans le fichier migration, creer les lignes pour reliers les id `$table->foreingId('post_id)->constrained();`
+idem pour tag_id
+
+la function belongstomany accepte plusieurs arguments au cas ou le nom de la table pivot soit different, possible même d'indiquer les cles
+
+Pour ecrire automatiquement le chemin Use \app\model\... , il faut etre sur la class et appuyer sur ctrl+alt+i
+___
+# relation one to many POLYMORPHYQUE
+qui permet d'optimiser nos tables, par exemple nos tables posts et videos contiennent des commentaires, au lieu de creer 2 tables commentaires, nous rajoutons des champs dans la table commentaire comment_id et comment_type
+
+## remove table en ligne de command
+on creer une migration en indiquant son role remo_table
+puis on ecrit `schema::dropifExists('name_of_table');`
+
+## morphto et morphmany
+pour relier les models ensembles `return $this->morphMany(Name::class, 'name_function')`
+
+pour sauvegarder dans une table on utilise save() mais si il y a plusieurs instructions dans un array, on doit utiliser `saveMany()`
+
+laravel se protege pour ne pas passer tous les arguments, il faut refaire un `protected $fillable = ['content']`
+et pour autoriser tout sans probleme `$guarded = []`
+
+***
+# nouvelle relation has one through
+
+***
  ## deploy on heroku
 
 `heroku create

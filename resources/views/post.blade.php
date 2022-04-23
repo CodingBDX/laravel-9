@@ -29,20 +29,29 @@
 				<!--Lead Para-->
 			<p>{{$article->content}}</p>
 
+@foreach ($article->tags as $tag)
+
+
+<button
+        type="button" action="{{$article->deleted($article->id)}}"
+        class="inline-block px-5 py-3 ml-3 text-sm font-medium text-white bg-red-500 rounded-lg"
+      >
+
+        {{ $tag->name}}
+      </button>
+      @endforeach
 				<!--/ Post Content-->
 
 			</div>
-
-
+     </div>
+    </div>
 
             {{-- comment section is here --}}
- <div class="max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8 sm:py-24">
+ <div class="flex flex-row  px-4 py-16 mx-auto sm:px-6 lg:px-8  sm:py-24">
 @foreach ($article->comments as $comment)
-
-<div
-      class="grid grid-cols-1 gap-8 mt-16 sm:grid-cols-2 lg:grid-cols-3 sm:gap-16"
-    >
-      <div>
+<div class="article">
+<div class="grid grid-cols-3 gap-8 mt-16 sm:grid-cols-2 lg:grid-cols-3 sm:gap-16">
+ </div>
 
         <img
           src="https://source.unsplash.com/collection/1118905/"
@@ -113,8 +122,8 @@
             </svg>
           </div>
         </blockquote>
-      </div>
-            </div>
+</div>
+
 
 @endforeach
  </div>

@@ -22,6 +22,8 @@ Route::get('/posts/create', [PostController::class, 'create'])->name('posts.crea
 Route::post('/posts/create', [PostController::class, 'store'])->name('posts.store');
 
 Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
+Route::get('/register_video', [PostController::class, 'register']);
+
 
 
 Route::get('/contact', [PostController::class, 'contact'])->name('contact');
