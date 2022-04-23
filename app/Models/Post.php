@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Tag;
 use App\Models\Image;
+use App\Models\Artist;
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,5 +31,17 @@ class Post extends Model
 
     public function comments() {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function imageArtist() {
+        return $this->hasOneThrough(Artist::class, Image::class);
+    }
+
+    public function latestComment() {
+        return $this->hasOne(Comment::class)->latestOfMany();
+    }
+
+    public function oldestComment() {
+        return $this->hasOne(Comment::class)->oldestOfMany();
     }
 }

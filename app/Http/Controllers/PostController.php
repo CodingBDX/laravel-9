@@ -50,10 +50,12 @@ return view('form');
     }
 
         public function store(Request $request) {
-// $post = new Post();
-// $post->title = $request->title;
-// $post->content = $request->content;
-// $post->save();
+
+ $request->validate([
+    'title' => 'required|max:120',
+    'content' => 'required'
+ ]);
+
 // redirect('article');
 Post::created([
     'title' => $request->title,

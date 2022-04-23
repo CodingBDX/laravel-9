@@ -38,7 +38,11 @@
       >
 
         {{ $tag->name}}
+{{ Str::length($tag->name)}}
+
+
       </button>
+
       @endforeach
 				<!--/ Post Content-->
 

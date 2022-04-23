@@ -192,10 +192,41 @@ pour sauvegarder dans une table on utilise save() mais si il y a plusieurs instr
 laravel se protege pour ne pas passer tous les arguments, il faut refaire un `protected $fillable = ['content']`
 et pour autoriser tout sans probleme `$guarded = []`
 
-***
-# nouvelle relation has one through
+## composer update pour mettre a jour laravel
 
 ***
+# nouvelle relation has one through
+pour recuperer ;e dernier commentaire
+`
+    public function latestComment() {
+        return $this->hasOne(Comment::class)->latestOfMany();
+    }` latestofmany qui va prendre le max id de la table et l'afficher
+    ou le plus vieux oldofmany 
+
+    pour selectionner au niveau quantitatif nous pouvons faire un ofmany avec 2 valeur `ofMany('mavaleur', 'max') pour afficher la valeur la plus grande ou min pour la plus petite`
+***
+
+
+# utilisation de Request
+quand on appel la route on peut precise un $name par exemple et au niveau de la function de le passer après la request
+public function store(request $request, $name)
+
+dans la function $request il y a differentes options comme $request->path pour recuperer le chemin taper dans la method post
+`isroute('show.route')` permet de verifier si le formulaire renvoi bien la bonne route
+&& fullurlwithquery([argument1, argument2]) permet d'ajouter des arguments à l'url! http://mon.url?index?=argument1
+les valeurs par default peuvent etre indiquer en second parametre $request->input('name', 'sarah)
+
+pour recuperer les differents valeurs d'un formulaire il faut faire `$request->input('products.0.name')`, on recupere le champs products, le lien 0 (1er) et sa valeur name on peut le remplacer par *
+pour recuperer une valeur de l'url on peut aussi faire un query
+$request->query('name_of_valeur')
+
+## method boolean dans request
+$request->boolean('name'), permet d'attribuer et recuperer des valeurs dans une checkbox et la mettre en true ou false
+
+ps; pour envoyer des fichiers img/pdf ou autres il faut definir dans form apres method enctype='multipart/form-data'
+
+on peut utiliser certaines function comme extension $request->image->extension(); pour recuper l'extension d une image 'jpg'
+l'option store('images') permet de stocker sur le serveur dans le dossier images, le fichier envoye, il le creer dans storage/app/
  ## deploy on heroku
 
 `heroku create

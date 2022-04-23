@@ -7,8 +7,11 @@
     @section('content')
 
 	<div class="text-center pt-16 md:pt-32">
-		<h1 class="font-bold break-normal text-3xl md:text-5xl">Les articles</h1>
-	</div>
+
+        <h1 class="font-bold break-normal text-3xl md:text-5xl">Les articles</h1>
+             <p>il y a {{ Str::length($mesarticles)}} articles</p>
+
+   	</div>
     <div class="flex flex-wrap justify-between pt-12 -mx-6">
 					<!--1/3 col -->
 

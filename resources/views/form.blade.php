@@ -12,16 +12,14 @@
   <div class="max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
       <div class="lg:py-12 lg:col-span-2">
-        <p class="max-w-xl text-lg">
-            creer un article en toute simplicitz
-        </p>
+
 
 
       </div>
 
       <div class="p-8 bg-white rounded-lg shadow-lg lg:p-12 lg:col-span-3">
         <form action="
-{{ route('posts.store') }}" method="post" class="space-y-4">
+{{ route('posts.store') }}" method="post" enctype="multipart/form-data" class="space-y-4">
 @csrf
 
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
