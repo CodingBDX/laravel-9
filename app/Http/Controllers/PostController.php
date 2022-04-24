@@ -3,9 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Image;
 use App\Models\Post;
 use App\Models\Video;
+use App\Rules\Uppercase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
+use phpDocumentor\Reflection\Types\Void_;
+use Stringable;
 
 class PostController extends Controller
 {
@@ -51,17 +57,31 @@ return view('form');
 
         public function store(Request $request) {
 
- $request->validate([
-    'title' => 'required|max:120',
-    'content' => 'required'
- ]);
 
-// redirect('article');
-Post::created([
+
+
+
+//  $request->validate([
+//     'title' => ['required', 'min:12', 'unique:posts', new Uppercase],
+//     'content' => 'required|max:250'
+//  ]);
+$storing = Storage::disk('public')->put('avatars', $request->avatar);
+// $filename = time() . '.' . $request->avatar->extension();
+
+
+
+
+$post =  Post::created ([
     'title' => $request->title,
     'content' => $request->content
 
 ]);
+
+$image = new Image();
+$image->path = $storing;
+// $image->post_id = $post->id;
+
+$post->image()->save();
     }
 
     public function register() {

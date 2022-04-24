@@ -34,7 +34,7 @@ class VideoFactory extends Factory
     public function definition()
     {
         return [
-            'url' => $this->faker->youtubeUri()
+            'url' => $this->youtubeUri->youtubeUri(12)
         ];
     }
 }

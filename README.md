@@ -227,6 +227,53 @@ ps; pour envoyer des fichiers img/pdf ou autres il faut definir dans form apres 
 
 on peut utiliser certaines function comme extension $request->image->extension(); pour recuper l'extension d une image 'jpg'
 l'option store('images') permet de stocker sur le serveur dans le dossier images, le fichier envoye, il le creer dans storage/app/
+
+$request->valid([
+    'title' => 'required|max:100'
+])
+nous permet de verifier si les regles sont appliquer
+
+`unique:posts` permet de signifer que nous voulons un titre unique!
+
+## regles unique
+pour creer sa propre regle (message erreur, false true boolean) , `php artisan make:rule name_of_rulez`
+puis dans /app/rules il creait un fichier, il suffit dans la function d ecrire `return strtoupper($value) === $value;
+exemple pour dire que la valeur doit etre taper en majuscule
+
+après dans le controller a la suite des appels de message required, max:250 on met une nouvelle instance de la règle `new nom_de_linstance
+# config image
+la commande dans le controller pour upload un fichier est storage::disk('local')->put('test.txt', 'contenu du fichier')
+du coup, on peut changer local en public si on veut que tout le monde y est accès ou s3 pour le service amazon, test.txt est la localisation du fichier, et le contenu peut être remplacer par la variable `$request->avatar` le nom que l'on choisi dans notre html name=""
+
+## recuperation image
+`storage::get($variable)` il retourne l'image entière
+
+## si exist
+`storage::disk($variable)->exists('name_of_file')`
+pour voir si le chemin est manquant
+->missing($variable);
+
+## pour downloader
+un simple
+`storage::downloaded($variable)` pour telecharger le fichier
+pour recuperer l'url `storage::url($variable);`
+
+pour la tailler,l'argument `storage::size`
+
+## se passer de storage
+il suffit d'utilise $request, `$request->file('lefichier')->store('name_of_folder');`
+
+## personnaliser le nom du fichier img, ou pdf heberger en local
+storage::storeAs('name_of_folder', $variable)  $variable exemple = $request->user->id
+
+pour generer des noms de fichiers aleatoire
+$filename = time() . '.' . 'jpg'; a la place de jpg $request->avatar->extension()
+
+dans la template view
+on utilise `{{storage::url($article->image-path)}}` dans les balise img par exemple
+pour que le dossier image soit créé dans public ou linké a la place de storage, il faut faire
+php artisan storage:link
+***
  ## deploy on heroku
 
 `heroku create
